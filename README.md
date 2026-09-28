@@ -96,8 +96,17 @@
 
 ## Запуск
 
-Нужны Python 3.12, около 16 ГБ RAM и видеокарта с CUDA (на CPU E5 будет считаться очень долго).
-Parquet-файлы лежат в папке `data`.
+Нужны Python 3.12 и около 16 ГБ RAM. Видеокарта с CUDA желательна, но без нее тоже
+работает, только E5 считается дольше. Parquet-файлы задания нужно положить в папку `data`.
+
+```bash
+git clone https://github.com/alex-past-15/avito-candidate-generation.git
+cd avito-candidate-generation
+git lfs pull
+```
+
+Для GPU torch ставится с сайта PyTorch:
+`python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124`.
 
 ```bash
 python -m pip install -r requirements.txt

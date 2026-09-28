@@ -24,6 +24,8 @@ CACHE = ROOT / "cache"
 BASE = ROOT / "models" / "multilingual-e5-small"
 TUNED = ROOT / "models" / "e5-small-avito"
 SEED = 20260928
+# Без видеокарты тоже работает, только медленнее
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def doc_text(title, params, desc):
@@ -57,7 +59,7 @@ def train(epochs=1, batch=128, lr=5e-5, temperature=0.05, max_steps=2000):
     text_code = pd.factorize(df.search_query.map(norm))[0]
     log("pairs", len(df), "items", len(docs))
 
-    device = "cuda"
+    device = DEVICE
     tok = AutoTokenizer.from_pretrained(BASE)
     model = AutoModel.from_pretrained(BASE).to(device)
     # Эмбеддинги словаря - это 96 млн из 118 млн параметров. Их замораживаем,
@@ -116,7 +118,7 @@ def encode(model, tok, texts, max_length, batch=256):
     for s in range(0, len(texts), batch):
         idx = order[s:s + batch]
         x = tok([texts[i] for i in idx], padding=True, truncation=True, max_length=max_length,
-                return_tensors="pt").to("cuda")
+                return_tensors="pt").to(DEVICE)
         v = mean_pool(model(**x).last_hidden_state, x["attention_mask"])
         out[idx] = v.cpu().numpy()
         if (s // batch) % 100 == 0:
@@ -126,7 +128,7 @@ def encode(model, tok, texts, max_length, batch=256):
 
 def encode_all(path=TUNED, tag="tuned"):
     tok = AutoTokenizer.from_pretrained(path)
-    model = AutoModel.from_pretrained(path).to("cuda").eval()
+    model = AutoModel.from_pretrained(path).to(DEVICE).eval()
     items = pd.read_parquet(ROOT / "data/benchmark_items.parquet",
                             columns=["item_id", "item_title_raw", "item_infm_params_text", "item_description_raw"])
     log("encode items", len(items))
@@ -150,8 +152,8 @@ def recall_check(tag="tuned"):
     items = pd.read_parquet(ROOT / "data/benchmark_items.parquet", columns=["item_id"])
     truth = joblib.load(CACHE / "truth.joblib")
     ctrl = pd.read_parquet(CACHE / "control.parquet")
-    iv = torch.as_tensor(np.load(CACHE / f"{tag}_items.npy"), device="cuda")
-    qv = torch.as_tensor(np.load(CACHE / f"{tag}_control_queries.npy"), device="cuda")
+    iv = torch.as_tensor(np.load(CACHE / f"{tag}_items.npy").astype(np.float32), device=DEVICE)
+    qv = torch.as_tensor(np.load(CACHE / f"{tag}_control_queries.npy").astype(np.float32), device=DEVICE)
     pos = {v: k for k, v in enumerate(items.item_id)}
     res = {k: [] for k in [50, 200, 500, 1000]}
     for s in range(0, len(ctrl), 256):
