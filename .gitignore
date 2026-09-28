@@ -1,0 +1,11 @@
+.venv/
+cache/
+__pycache__/
+*.log
+.idea/
+
+# Данные задания не публикуем
+data/
+
+# Исходная модель скачивается через download_model.py
+models/multilingual-e5-small/

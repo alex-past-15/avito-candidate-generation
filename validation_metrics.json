@@ -1,0 +1,61 @@
+{
+  "baseline_base_score": {
+    "recall_at_50": 0.8425155925155925,
+    "pool_recall": 0.9844074844074844,
+    "unseen_recall": 0.8235294117647058,
+    "seen_recall": 0.87109375,
+    "queries": 962
+  },
+  "dense_only": {
+    "recall_at_50": 0.3632189882189882,
+    "pool_recall": 0.9844074844074844,
+    "unseen_recall": 0.3615916955017301,
+    "seen_recall": 0.36566840277777773,
+    "queries": 962
+  },
+  "model": {
+    "recall_at_50": 0.9490644490644491,
+    "pool_recall": 0.9844074844074844,
+    "unseen_recall": 0.9429065743944637,
+    "seen_recall": 0.9583333333333334,
+    "queries": 962
+  },
+  "iterations": 1131,
+  "features": {
+    "location_transition": 12.704846979126,
+    "dense": 10.697791129548602,
+    "nearby": 8.014836531074765,
+    "base_score": 7.274145183640032,
+    "description_word_coverage": 6.498907437660276,
+    "log_distance": 4.309618536514858,
+    "expanded_title": 3.898651249048131,
+    "train_popularity": 3.7253147483656246,
+    "query_localness": 3.652008361435512,
+    "microcat_probability": 3.6102644780912128,
+    "dense_microcat": 3.516606153441312,
+    "lexical_score": 3.0369320828765685,
+    "nearest_query_similarity": 2.9820715134708395,
+    "dense_query_similarity": 2.9061440237027245,
+    "log_reviews": 2.508438967371927,
+    "description_bm25": 2.245224752945528,
+    "query_length": 1.9562264218701015,
+    "rating": 1.9292869765599496,
+    "filter_match": 1.6641458507672593,
+    "log_price": 1.5531312894351728,
+    "title_char": 1.506812785192756,
+    "params_bm25": 1.3145232280481962,
+    "params_word_coverage": 1.3080494007422165,
+    "title_word_cosine": 1.3002151115664702,
+    "title_bm25": 1.280469701388988,
+    "title_word_coverage": 1.2132260677635425,
+    "dense_neighbor_item": 0.8781753482342496,
+    "has_filters": 0.7933974588420871,
+    "neighbor_item_probability": 0.665875631863336,
+    "query_words": 0.524680946658205,
+    "same_location": 0.17888944613202115,
+    "message_forbidden": 0.13750376164438113,
+    "query_in_title": 0.1324135278933622,
+    "phone_hidden": 0.057769983912604614,
+    "same_category": 0.023404933171215614
+  }
+}
